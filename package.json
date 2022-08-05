@@ -1,0 +1,28 @@
+{
+  "name": "nav-assist",
+  "version": "1.0.0",
+  "description": "An AI/ML powered navigation assist app that allows user to input destination address using hand-drawn symbols.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/senthilkumar-chandramohan/nav-assist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/senthilkumar-chandramohan/nav-assist/issues"
+  },
+  "homepage": "https://github.com/senthilkumar-chandramohan/nav-assist#readme",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^3.19.0",
+    "convert-array-to-csv": "^2.0.0",
+    "express": "^4.18.1",
+    "glob": "^8.0.3",
+    "jimp": "^0.16.1"
+  }
+}
