@@ -850,15 +850,88 @@ const writePixelDataToCSV = () => {
 const extractPixelDataFromImages = () => {
     let totalFilesProcessed = 0;
 
-    for (let i=0; i<=9; i++) {
+    let labelFolderMap = [
+        { label: 'a', folder: 'a' },
+        { label: 'b', folder: 'b' },
+        { label: 'c', folder: 'c' },
+        { label: 'd', folder: 'd' },
+        { label: 'e', folder: 'e' },
+        { label: 'f', folder: 'f' },
+        { label: 'g', folder: 'g' },
+        { label: 'h', folder: 'h' },
+        { label: 'i', folder: 'i' },
+        { label: 'j', folder: 'j' },
+        { label: 'k', folder: 'k' },
+        { label: 'l', folder: 'l' },
+        { label: 'm', folder: 'm' },
+        { label: 'n', folder: 'n' },
+        { label: 'o', folder: 'o' },
+        { label: 'p', folder: 'p' },
+        { label: 'q', folder: 'q' },
+        { label: 'r', folder: 'r' },
+        { label: 's', folder: 's' },
+        { label: 't', folder: 't' },
+        { label: 'u', folder: 'u' },
+        { label: 'v', folder: 'v' },
+        { label: 'w', folder: 'w' },
+        { label: 'x', folder: 'x' },
+        { label: 'y', folder: 'y' },
+        { label: 'z', folder: 'z' },
+        { label: 'A', folder: '_A' },
+        { label: 'B', folder: '_B' },
+        { label: 'C', folder: '_C' },
+        { label: 'D', folder: '_D' },
+        { label: 'E', folder: '_E' },
+        { label: 'F', folder: '_F' },
+        { label: 'G', folder: '_G' },
+        { label: 'H', folder: '_H' },
+        { label: 'I', folder: '_I' },
+        { label: 'J', folder: '_J' },
+        { label: 'K', folder: '_K' },
+        { label: 'L', folder: '_L' },
+        { label: 'M', folder: '_M' },
+        { label: 'N', folder: '_N' },
+        { label: 'O', folder: '_O' },
+        { label: 'P', folder: '_P' },
+        { label: 'Q', folder: '_Q' },
+        { label: 'R', folder: '_R' },
+        { label: 'S', folder: '_S' },
+        { label: 'T', folder: '_T' },
+        { label: 'U', folder: '_U' },
+        { label: 'V', folder: '_V' },
+        { label: 'W', folder: '_W' },
+        { label: 'X', folder: '_X' },
+        { label: 'Y', folder: '_Y' },
+        { label: 'Z', folder: '_Z' },
+        { label: '0', folder: '0' },
+        { label: '1', folder: '1' },
+        { label: '2', folder: '2' },
+        { label: '3', folder: '3' },
+        { label: '4', folder: '4' },
+        { label: '5', folder: '5' },
+        { label: '6', folder: '6' },
+        { label: '7', folder: '7' },
+        { label: '8', folder: '8' },
+        { label: '9', folder: '9' },
+        { label: ' ', folder: 'space' },
+        { label: ',', folder: 'comma' },
+        { label: '.', folder: 'period' },
+    ];
+
+    for (labelFolder in labelFolderMap) {
+        const {
+            label,
+            folder,
+        } = labelFolder;
+
         const options = {
-            cwd: path.resolve(path.join(__dirname, `../images/dataset/${i}/`)),
+            cwd: path.resolve(path.join(__dirname, `../images/dataset/${folder}/`)),
         };
 
         glob("*(*.png|*.jpg)", options, async (er, files) => {
             for(const file of files) {
                 const pixelData = await toPixelData(`${options.cwd}/${file}`);
-                pixelData.unshift(i);
+                pixelData.unshift(label);
                 
                 totalFilesProcessed += 1;
                 console.log(totalFilesProcessed);

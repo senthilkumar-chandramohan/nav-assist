@@ -24,24 +24,14 @@ const predict = (pixelData, imageWidth, imageHeight, imageChannels) => {
         const prediction = model.predict(inputTensor);
         const scores = prediction.arraySync()[0];
 
-        console.log("++++++++++++++++++++++");
-        console.log(prediction.bitmap);
-        console.log(scores);
-
         const maxScore = prediction.max().arraySync();
         const maxScoreIndex = scores.indexOf(maxScore);
-
-        const labelScores = [];
-        scores.forEach((s, i) => {
-            labelScores[labels[i]] = parseFloat(s.toFixed(4));
-        });
-
-        console.log(labelScores);
 
         return {
             prediction: labels[maxScoreIndex],
             confidence: parseInt(maxScore * 100),
-            scores: labelScores,
+            scores: scores.map(s=>parseFloat(s.toFixed(4))),
+            maxScoreIndex,
         };
     } else {
         return null;
@@ -110,11 +100,13 @@ function triggerPredictTimer() {
     }, 500);
 };
 
-function findIndexOfSecondPrediction(scores, prediction) {
-    let indexOfSecondPrediction = 0;
+function findIndexOfSecondPrediction(scores, maxScoreIndex) {
+    let indexOfSecondPrediction = maxScoreIndex === 0 ? 1 : 0;
     for (let i=0; i<scores.length; i++) {
-        if (scores[i] > scores[indexOfSecondPrediction] && scores[i] < scores[prediction]) {
-            indexOfSecondPrediction = i;
+        if (i !== maxScoreIndex) {
+            if (scores[i] > scores[indexOfSecondPrediction]) {
+                indexOfSecondPrediction = i;
+            }
         }
     }
 
@@ -148,7 +140,10 @@ async function readImageAndPredict() {
                 prediction,
                 confidence,
                 scores,
+                maxScoreIndex,
             } = result;
+
+            console.log(scores);
 
             if (confidence >= 50) {
                 speechSynthesis.speak(new SpeechSynthesisUtterance(prediction));
@@ -157,7 +152,7 @@ async function readImageAndPredict() {
             } else {
                 a.innerHTML = prediction;
                 // Find index of 2nd most probable prediction
-                b.innerHTML = labels[findIndexOfSecondPrediction(scores, prediction)];
+                b.innerHTML = labels[findIndexOfSecondPrediction(scores, maxScoreIndex)];
                 aOrb.classList.remove('hide');
             }
         }
@@ -178,7 +173,7 @@ suggestions.forEach(suggestion => {
         console.log(e.target.innerHTML);
         if (e.target.innerHTML !== "&nbsp;") {
             // Use the value user chose
-            searchText.value += e.target.innerHTML; 
+            searchText.value += e.target.innerHTML;
         }
         aOrb.classList.add('hide');
         clearCanvas();
