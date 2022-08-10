@@ -816,7 +816,7 @@ const writePixelDataToCSV = () => {
     // Create directory if it doesn't exist
     const dir = path.join(__dirname, "../data");
 
-    if (!fs.existsSync(dir)){
+    if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
 
@@ -828,7 +828,7 @@ const writePixelDataToCSV = () => {
     fs.writeFile(path.resolve(path.join(__dirname, `../data/dataset_train.csv`)), trainingCSV, 'utf8', function (err) {
         if (err) {
           console.log('Some error occured - file either not saved or corrupted file saved.');
-        } else{
+        } else {
           console.log('Training CSV saved!');
         }
     });
@@ -841,8 +841,8 @@ const writePixelDataToCSV = () => {
     fs.writeFile(path.resolve(path.join(__dirname, `../data/dataset_test.csv`)), testingCSV, 'utf8', function (err) {
         if (err) {
           console.log('Some error occured - file either not saved or corrupted file saved.');
-        } else{
-          console.log('Training CSV saved!');
+        } else {
+          console.log('Testing CSV saved!');
         }
     });
 };
@@ -851,58 +851,58 @@ const extractPixelDataFromImages = () => {
     let totalFilesProcessed = 0;
 
     let labelFolderMap = [
-        { label: 'a', folder: 'a' },
-        { label: 'b', folder: 'b' },
-        { label: 'c', folder: 'c' },
-        { label: 'd', folder: 'd' },
-        { label: 'e', folder: 'e' },
-        { label: 'f', folder: 'f' },
-        { label: 'g', folder: 'g' },
-        { label: 'h', folder: 'h' },
-        { label: 'i', folder: 'i' },
-        { label: 'j', folder: 'j' },
-        { label: 'k', folder: 'k' },
-        { label: 'l', folder: 'l' },
-        { label: 'm', folder: 'm' },
-        { label: 'n', folder: 'n' },
-        { label: 'o', folder: 'o' },
-        { label: 'p', folder: 'p' },
-        { label: 'q', folder: 'q' },
-        { label: 'r', folder: 'r' },
-        { label: 's', folder: 's' },
-        { label: 't', folder: 't' },
-        { label: 'u', folder: 'u' },
-        { label: 'v', folder: 'v' },
-        { label: 'w', folder: 'w' },
-        { label: 'x', folder: 'x' },
-        { label: 'y', folder: 'y' },
-        { label: 'z', folder: 'z' },
-        { label: 'A', folder: '_A' },
-        { label: 'B', folder: '_B' },
-        { label: 'C', folder: '_C' },
-        { label: 'D', folder: '_D' },
-        { label: 'E', folder: '_E' },
-        { label: 'F', folder: '_F' },
-        { label: 'G', folder: '_G' },
-        { label: 'H', folder: '_H' },
-        { label: 'I', folder: '_I' },
-        { label: 'J', folder: '_J' },
-        { label: 'K', folder: '_K' },
-        { label: 'L', folder: '_L' },
-        { label: 'M', folder: '_M' },
-        { label: 'N', folder: '_N' },
-        { label: 'O', folder: '_O' },
-        { label: 'P', folder: '_P' },
-        { label: 'Q', folder: '_Q' },
-        { label: 'R', folder: '_R' },
-        { label: 'S', folder: '_S' },
-        { label: 'T', folder: '_T' },
-        { label: 'U', folder: '_U' },
-        { label: 'V', folder: '_V' },
-        { label: 'W', folder: '_W' },
-        { label: 'X', folder: '_X' },
-        { label: 'Y', folder: '_Y' },
-        { label: 'Z', folder: '_Z' },
+        // { label: 'a', folder: 'a' },
+        // { label: 'b', folder: 'b' },
+        // { label: 'c', folder: 'c' },
+        // { label: 'd', folder: 'd' },
+        // { label: 'e', folder: 'e' },
+        // { label: 'f', folder: 'f' },
+        // { label: 'g', folder: 'g' },
+        // { label: 'h', folder: 'h' },
+        // { label: 'i', folder: 'i' },
+        // { label: 'j', folder: 'j' },
+        // { label: 'k', folder: 'k' },
+        // { label: 'l', folder: 'l' },
+        // { label: 'm', folder: 'm' },
+        // { label: 'n', folder: 'n' },
+        // { label: 'o', folder: 'o' },
+        // { label: 'p', folder: 'p' },
+        // { label: 'q', folder: 'q' },
+        // { label: 'r', folder: 'r' },
+        // { label: 's', folder: 's' },
+        // { label: 't', folder: 't' },
+        // { label: 'u', folder: 'u' },
+        // { label: 'v', folder: 'v' },
+        // { label: 'w', folder: 'w' },
+        // { label: 'x', folder: 'x' },
+        // { label: 'y', folder: 'y' },
+        // { label: 'z', folder: 'z' },
+        // { label: 'A', folder: '_A' },
+        // { label: 'B', folder: '_B' },
+        // { label: 'C', folder: '_C' },
+        // { label: 'D', folder: '_D' },
+        // { label: 'E', folder: '_E' },
+        // { label: 'F', folder: '_F' },
+        // { label: 'G', folder: '_G' },
+        // { label: 'H', folder: '_H' },
+        // { label: 'I', folder: '_I' },
+        // { label: 'J', folder: '_J' },
+        // { label: 'K', folder: '_K' },
+        // { label: 'L', folder: '_L' },
+        // { label: 'M', folder: '_M' },
+        // { label: 'N', folder: '_N' },
+        // { label: 'O', folder: '_O' },
+        // { label: 'P', folder: '_P' },
+        // { label: 'Q', folder: '_Q' },
+        // { label: 'R', folder: '_R' },
+        // { label: 'S', folder: '_S' },
+        // { label: 'T', folder: '_T' },
+        // { label: 'U', folder: '_U' },
+        // { label: 'V', folder: '_V' },
+        // { label: 'W', folder: '_W' },
+        // { label: 'X', folder: '_X' },
+        // { label: 'Y', folder: '_Y' },
+        // { label: 'Z', folder: '_Z' },
         { label: '0', folder: '0' },
         { label: '1', folder: '1' },
         { label: '2', folder: '2' },
@@ -913,27 +913,31 @@ const extractPixelDataFromImages = () => {
         { label: '7', folder: '7' },
         { label: '8', folder: '8' },
         { label: '9', folder: '9' },
-        { label: ' ', folder: 'space' },
+        { label: '_', folder: 'space' },
         { label: ',', folder: 'comma' },
         { label: '.', folder: 'period' },
     ];
 
-    for (labelFolder in labelFolderMap) {
+    for (let labelFolder of labelFolderMap) {
         const {
             label,
             folder,
         } = labelFolder;
+
+        console.log(label, folder);
 
         const options = {
             cwd: path.resolve(path.join(__dirname, `../images/dataset/${folder}/`)),
         };
 
         glob("*(*.png|*.jpg)", options, async (er, files) => {
+            console.log(files);
             for(const file of files) {
                 const pixelData = await toPixelData(`${options.cwd}/${file}`);
                 pixelData.unshift(label);
                 
                 totalFilesProcessed += 1;
+                console.log(label, folder, options.cwd);
                 console.log(totalFilesProcessed);
                 // Save pixelData under training and testing dataset alternatively
                 if (totalFilesProcessed % 2 === 0) {
@@ -941,13 +945,53 @@ const extractPixelDataFromImages = () => {
                 } else {
                     pixelDataForTesting.push(pixelData);
                 }
-            }            
+            }
         });
     }
 };
+
+const splitCSV = () => {
+    const fastCsv = require('fast-csv');
+
+    const trainingCSVdata = [];
+    const testingCSVData = [];
+
+    const options = {headers: false, delimiters: ','};
+
+    let count = 0;
+
+    fastCsv
+        .parseFile(path.resolve(path.join(__dirname, '../data/a_z_dataset.csv')), options)
+        .on('data', d => {
+            if (count < 17131) {
+                // Replace label numbers with alphabets
+                d[0] = String.fromCharCode(parseInt(d[0]) + 65);
+
+                if (count % 2 === 0) {
+                    trainingCSVdata.push(d);
+                } else {
+                    testingCSVData.push(d);
+                }
+            }
+
+            count += 1;
+        })
+        .on('end', () => {
+            fastCsv
+                .write(trainingCSVdata, options)
+                .pipe(fs.createWriteStream(path.resolve(path.join(__dirname, '../data/a_z_dataset_train.csv')), { flags: 'a' }));
+
+            fastCsv
+                .write(testingCSVData, options)
+                .pipe(fs.createWriteStream(path.resolve(path.join(__dirname, '../data/a_z_dataset_test.csv')), { flags: 'a' }));
+        
+            console.log("Writing CSV data complete!");
+        });
+}
 
 module.exports = {
     extractPixelDataFromImages,
     writePixelDataToCSV,
     toPixelData,
+    splitCSV,
 };

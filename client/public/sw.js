@@ -1,7 +1,13 @@
 self.addEventListener("install", e => {
     e.waitUntil(
         caches.open("static").then(cache => {
-            return cache.addAll(["./", "./css/master.css", "./images/logo192.png"]);
+            return cache.addAll([
+                "./",
+                "./css/bootstrap-grid.min.css",
+                "./images/logo192.png",
+                "./js/bundle.js",
+                "./js/index.js"
+            ]);
         })
     )
     console.log("Install!");

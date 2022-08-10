@@ -105,3 +105,6 @@ dist
 
 # Image files to train model
 server/images/dataset
+
+# Large dataset files
+server/data/bkup

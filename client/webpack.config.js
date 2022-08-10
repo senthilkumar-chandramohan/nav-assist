@@ -30,7 +30,7 @@ module.exports = {
         ]
     },
     entry: './index.js',
-    mode: 'development',
+    mode: 'production',
     plugins: [
         new NodePolyfillPlugin(),
         new FileManagerPlugin({

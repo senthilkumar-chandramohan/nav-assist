@@ -1,8 +1,8 @@
 const express = require("express");
 const path = require("path");
 
-const { createAndTrainModel, predict } = require("./modules/model");
-const { extractPixelDataFromImages, writePixelDataToCSV } = require("./modules/utils");
+const { createAndTrainModel, predict, loadModel } = require("./modules/model");
+const { extractPixelDataFromImages, writePixelDataToCSV, splitCSV } = require("./modules/utils");
 
 const app = express();
 
@@ -24,8 +24,18 @@ app.get("/train-model", async (req, res) => {
     res.send("Model Training Initiated...");
 });
 
+app.get("/load-model", async (req, res) => {
+    const result = await loadModel();
+    res.send(result === true ? "Model loaded successfully!" : result);
+});
+
+app.get("/split-csv", (req, res) => {
+    splitCSV();
+    res.send("CSV Split started");
+});
+
 app.get("/predict", async (req, res) => {
-    const predictedNumber = await predict(path.join(__dirname, "./12357.jpg"));
+    const predictedNumber = await predict(path.join(__dirname, "./predict.png"));
 
     if (predictedNumber) {
         res.status(200).json(predictedNumber);

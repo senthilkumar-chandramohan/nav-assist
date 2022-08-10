@@ -2,16 +2,7 @@ const tf = require("@tensorflow/tfjs-node");
 const path = require("path");
 const { toPixelData } = require("./utils");
 
-let model, trainingComplete = false;
-
-const numOfClasses = 10;
-
-const imageWidth = 28;
-const imageHeight = 28;
-const imageChannels = 1;
-
-const batchSize = 100;
-const epochsValue = 20;
+let model, modelReady = false;
 
 const labels = [
     '0',
@@ -23,8 +14,82 @@ const labels = [
     '6',
     '7',
     '8',
-    '9'
+    '9',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+    // 'a',
+    // 'b',
+    // 'c',
+    // 'd',
+    // 'e',
+    // 'f',
+    // 'g',
+    // 'h',
+    // 'i',
+    // 'j',
+    // 'k',
+    // 'l',
+    // 'm',
+    // 'n',
+    // 'o',
+    // 'p',
+    // 'q',
+    // 'r',
+    // 's',
+    // 't',
+    // 'u',
+    // 'v',
+    // 'w',
+    // 'x',
+    // 'y',
+    // 'z',
+    '_',
+    ',',
+    '.',
   ];
+
+const numOfClasses = labels.length;
+
+const imageWidth = 28;
+const imageHeight = 28;
+const imageChannels = 1;
+
+const batchSize = 1000;
+const epochsValue = 50;
+
+const loadModel = async () => {
+    try {
+        model = await tf.loadLayersModel(`file://${path.join(__dirname, "../../client/public/model/model.json")}`);
+        modelReady = true;
+        return true;
+    } catch(exp) {
+        return exp;
+    }
+}
 
 const createModel = () => {
     const model = tf.sequential();
@@ -77,7 +142,7 @@ const trainModel = async (model, trainingData, epochs = epochsValue) => {
         batchSize,
         verbose: 0,
         callbacks: {
-            onEpochBegin: (epoch, logs) => {
+            onEpochBegin: (epoch) => {
                 console.log(`Epoch ${epoch + 1} of ${epochs}`);
             },
             onEpochEnd: (epoch, logs) => {
@@ -100,7 +165,7 @@ const evaluateModel = async (model, testingData) => {
 }
 
 const saveModel = async () => {
-    if (trainingComplete) {
+    if (modelReady) {
         try {
             await model.save(`file://${path.join(__dirname, "../../client/public/model")}`);
             return true;
@@ -130,7 +195,7 @@ const loadData = (dataUrl) => {
         return {
             xs: tf.tensor(xs, [imageWidth, imageHeight, imageChannels]),
             ys: tf.tensor1d(zeros.map((z, i) => {
-                return i === ys ? 1 : 0;
+                return i === labels.indexOf(ys.toString()) ? 1 : 0;
             }))
         };
     };
@@ -143,7 +208,7 @@ const loadData = (dataUrl) => {
 };
 
 const predict = async (imageUrl) => {
-    if (trainingComplete) {
+    if (modelReady) {
         const pixelData = await toPixelData(imageUrl, 255);
         const imageTensor = tf.tensor(pixelData, [imageWidth, imageHeight, imageChannels]);
         const inputTensor = imageTensor.expandDims();
@@ -168,22 +233,20 @@ const predict = async (imageUrl) => {
 }
 
 const createAndTrainModel = async () => {
-    const trainingData = loadData(`file://${path.resolve(path.join(__dirname, "../data/dataset_train.csv"))}`);
-    const testingData = loadData(`file://${path.resolve(path.join(__dirname, "../data/dataset_test.csv"))}`);
-
-    const arr = await trainingData.take(1).toArray();
-    arr[0].xs.print();
+    const trainingData = loadData(`file://${path.resolve(path.join(__dirname, "../data/a_z_dataset_train2.csv"))}`);
+    const testingData = loadData(`file://${path.resolve(path.join(__dirname, "../data/a_z_dataset_test2.csv"))}`);
 
     model = createModel();
     const info = await trainModel(model, trainingData);
     console.log(info);
 
     await evaluateModel(model, testingData);
-    trainingComplete = true;
+    modelReady = true;
     saveModel();
 };
 
 module.exports = {
     createAndTrainModel,
     predict,
+    loadModel,
 };
