@@ -26,6 +26,13 @@ module.exports = {
                     { loader: 'css-loader' },
                     { loader: 'less-loader' }
                 ]
+            },
+            {
+                test: /\.css$/i,
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' }
+                ]
             }
         ]
     },

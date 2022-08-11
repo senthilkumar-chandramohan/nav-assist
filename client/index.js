@@ -1,5 +1,6 @@
 const jimp = require('jimp');
 import * as tf from '@tensorflow/tfjs';
+require('./node_modules/bootstrap/dist/css/bootstrap-grid.min.css');
 require('./less/master.less');
 
 let model;
@@ -118,12 +119,39 @@ clearCanvas();
 const pos = { x: 0, y: 0 };
 
 canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('touchmove', draw);
 canvas.addEventListener('mousedown', setPosition);
-canvas.addEventListener('touchstart', setPosition);
-// canvas.addEventListener('mouseenter', setPosition);
 canvas.addEventListener('mouseup', triggerPredictTimer);
-canvas.addEventListener('touchend', triggerPredictTimer);
+
+canvas.addEventListener("touchstart", function (e) {
+    var touch = e.touches[0];
+    // console.log('touch start');
+    // console.log(touch);
+    var mouseEvent = new MouseEvent("mousedown", {
+      clientX: touch.clientX,
+      clientY: touch.clientY
+    });
+    canvas.dispatchEvent(mouseEvent);
+  }, false);
+
+canvas.addEventListener("touchmove", function (e) {
+    var touch = e.touches[0];
+    // console.log('touch move');
+    // console.log(touch);
+    var mouseEvent = new MouseEvent("mousemove", {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      buttons: 1,
+    });
+    canvas.dispatchEvent(mouseEvent);
+  }, false);
+
+  canvas.addEventListener("touchend", function (e) {
+    var touch = e.touches[0];
+    // console.log('touch end');
+    // console.log(touch);
+    var mouseEvent = new MouseEvent("mouseup");
+    canvas.dispatchEvent(mouseEvent);
+  }, false);
 
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -133,6 +161,7 @@ function clearCanvas() {
 
 // new position from mouse event
 function setPosition(e) {
+    // console.log(e);
     startPrediction = false;
     // console.log('startPrediction', startPrediction);
     pos.x = e.offsetX;
@@ -140,6 +169,7 @@ function setPosition(e) {
 }
 
 function draw(e) {
+    // console.log(e);
     // mouse left button must be pressed
     if (e.buttons !== 1) return;
 
@@ -257,3 +287,6 @@ suggestions.forEach(suggestion => {
         clearCanvas();
     });
 });
+
+document.body.style.zoom = 2; // Bugfix, TODO: find permanent fix
+document.body.style.zoom = 1;

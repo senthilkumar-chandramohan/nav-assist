@@ -2,62 +2,58 @@
 <html>
     <head>
         <title>NavAssist</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="theme-color" content="#444">
 
         <link rel="manifest" href="manifest.json">
-        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
         <link rel="apple-touch-icon" href="images/logo192.png">
     </head>
     <body>
-        <section class="container centerAlign">
-            <div class="row header">
-                <div class="col-12">
-                    <img src="images/logo192.png" class="logo">
-                    <h1>NavAssist</h1>
-                </div>
-            </div>
-            <div class="row canvas">
-                <div id="aOrb" class="aOrb hide">
-                    <div class="row">
-                        <h3>I'm not sure!<br>Is it?</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div id="a" class="suggestion"></div>
-                        </div>
-                        <div class="col-4">
-                            <div id="b" class="suggestion"></div>
-                        </div>
-                        <div class="col-4">
-                            <div id="c" class="suggestion discard">&nbsp;</div>
-                        </div>
+        <section class="padding20">
+            <div class="container centerAlign">
+                <div class="row header">
+                    <div class="col-12">
+                        <img src="images/logo192.png" class="logo">
+                        <h1>NavAssist</h1>
                     </div>
                 </div>
-                <div class="col-12">
-                    <canvas id="canvas" height=280 width=280></canvas>
+                <div class="row canvas">
+                    <div class="col-12">
+                        <div id="aOrb" class="aOrb hide">
+                            <div class="row">
+                                <h3>I'm not sure!<br>Is it?</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div id="a" class="suggestion"></div>
+                                </div>
+                                <div class="col-4">
+                                    <div id="b" class="suggestion"></div>
+                                </div>
+                                <div class="col-4">
+                                    <div id="c" class="suggestion discard">&nbsp;</div>
+                                </div>
+                            </div>
+                        </div>
+                        <canvas id="canvas" height=280 width=280></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 searchUndo">
+                        <button id="search" class="cta search">&nbsp;</button>
+                    </div>
+                    <div class="col-6 searchUndo">
+                        <button id="undo" class="cta undo">&nbsp;</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" id="searchText" class="searchText">
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6 searchUndo">
-                    <button id="search" class="cta search">&nbsp;</button>
-                </div>
-                <div class="col-6 searchUndo">
-                    <button id="undo" class="cta undo">&nbsp;</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <input type="text" id="searchText" class="searchText">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p id="result"></p>
-                </div>
-            </div>
-        </div>
-        
+        </section>
+
         <script src="js/index.js"></script>
         <script src="js/bundle.js" defer></script>
     </body>

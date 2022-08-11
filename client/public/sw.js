@@ -3,10 +3,9 @@ self.addEventListener("install", e => {
         caches.open("static").then(cache => {
             return cache.addAll([
                 "./",
-                "./css/bootstrap-grid.min.css",
                 "./images/logo192.png",
                 "./js/bundle.js",
-                "./js/index.js"
+                "./js/index.js",
             ]);
         })
     )
