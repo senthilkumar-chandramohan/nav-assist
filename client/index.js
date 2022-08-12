@@ -225,7 +225,7 @@ function triggerPredictTimer() {
     // console.log('startPrediction', startPrediction);
     setTimeout(()=> {
         readImageAndPredict();
-    }, 500);
+    }, 750);
 };
 
 function findIndexOfSecondPrediction(scores, maxScoreIndex) {
