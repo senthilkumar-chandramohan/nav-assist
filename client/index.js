@@ -319,9 +319,3 @@ suggestions.forEach(suggestion => {
         clearCanvas();
     });
 });
-
-document.body.style.zoom = 2; // Bugfix, TODO: find permanent fix
-
-setTimeout(() => {
-    document.body.style.zoom = 1;
-}, 500);
