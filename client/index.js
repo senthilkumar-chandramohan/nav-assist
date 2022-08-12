@@ -140,6 +140,7 @@ var putPoint = function (e) {
     // e.preventDefault();
     // e.stopPropagation();
     if (dragging) {
+        startPrediction = false;
         context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
         context.lineWidth = radius * 2;
         context.lineWidth = 6;
