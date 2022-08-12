@@ -111,80 +111,112 @@ canvas.style.margin = 0;
 canvas.style.height = '280px';
 canvas.style.width = '280px';
 
-// get canvas 2D context and set him correct size
-const ctx = canvas.getContext('2d');
-clearCanvas();
+var context = canvas.getContext('2d');
+var radius = 2;
+var dragging = false;
 
-// last known position
-const pos = { x: 0, y: 0 };
+function getMousePosition(e) {
+    let mouseX, mouseY;
+    if (e.buttons !== 1) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    } else {
+        mouseX = e.offsetX * canvas.width / canvas.clientWidth | 0;
+        mouseY = e.offsetY * canvas.height / canvas.clientHeight | 0;
+    }
 
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mousedown', setPosition);
-canvas.addEventListener('mouseup', triggerPredictTimer);
+    // console.log(e.isTouch, mouseX, mouseY);
+    return {x: mouseX, y: mouseY};
+}
+
+context.mozImageSmoothingEnabled = false;
+context.imageSmoothingEnabled = false;
+
+/* CLEAR CANVAS */
+function clearCanvas() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+var putPoint = function (e) {
+    // e.preventDefault();
+    // e.stopPropagation();
+    if (dragging) {
+        context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
+        context.lineWidth = radius * 2;
+        context.lineWidth = 6;
+        context.lineCap = 'round';
+        context.strokeStyle = '#fff';
+        context.stroke();
+        context.beginPath();
+        // context.arc(getMousePosition(e).x, getMousePosition(e).y, radius, 0, Math.PI * 2);
+        context.fill();
+        context.beginPath();
+        context.moveTo(getMousePosition(e).x, getMousePosition(e).y);
+    }
+};
+
+var engage = function (e) {
+    // console.log("A", e);
+    startPrediction = false;
+    dragging = true;
+    putPoint(e);
+};
+
+var disengage = function () {
+    dragging = false;
+    context.beginPath();
+    triggerPredictTimer();
+};
+
+canvas.addEventListener('mousedown', engage);
+canvas.addEventListener('mousemove', putPoint);
+canvas.addEventListener('mouseup', disengage);
+// document.addEventListener('mouseup', disengage);
+canvas.addEventListener('contextmenu', disengage);
+
+// canvas.addEventListener('touchstart', engage, false);
+//canvas.addEventListener('touchmove', putPoint, false);
+// canvas.addEventListener('touchend', disengage, false);
+
+const {
+    left,
+    top
+} = canvas.getBoundingClientRect();
 
 canvas.addEventListener("touchstart", function (e) {
     var touch = e.touches[0];
     // console.log('touch start');
     // console.log(touch);
+    
+    // console.log(left, top);
+
     var mouseEvent = new MouseEvent("mousedown", {
-      clientX: touch.clientX,
-      clientY: touch.clientY
+        isTouch: true,
+        clientX: touch.clientX - left,
+        clientY: touch.clientY - top,
     });
     canvas.dispatchEvent(mouseEvent);
-  }, false);
+    }, false);
 
 canvas.addEventListener("touchmove", function (e) {
     var touch = e.touches[0];
-    // console.log('touch move');
-    // console.log(touch);
     var mouseEvent = new MouseEvent("mousemove", {
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-      buttons: 1,
+        isTouch: true,
+        clientX: touch.clientX - left,
+        clientY: touch.clientY - top,
     });
     canvas.dispatchEvent(mouseEvent);
   }, false);
 
   canvas.addEventListener("touchend", function (e) {
-    var touch = e.touches[0];
-    // console.log('touch end');
-    // console.log(touch);
-    var mouseEvent = new MouseEvent("mouseup");
-    canvas.dispatchEvent(mouseEvent);
-  }, false);
+        var touch = e.touches[0];
+        // console.log('touch end');
+        // console.log(touch);
+        var mouseEvent = new MouseEvent("mouseup");
+        canvas.dispatchEvent(mouseEvent);
+      }, false);
 
-function clearCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle='rgb(0,0,0)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
-// new position from mouse event
-function setPosition(e) {
-    // console.log(e);
-    startPrediction = false;
-    // console.log('startPrediction', startPrediction);
-    pos.x = e.offsetX;
-    pos.y = e.offsetY;
-}
-
-function draw(e) {
-    // console.log(e);
-    // mouse left button must be pressed
-    if (e.buttons !== 1) return;
-
-    ctx.beginPath(); // begin
-
-    ctx.lineWidth = 6;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#fff';
-
-    ctx.moveTo(pos.x, pos.y); // from
-    setPosition(e);
-    ctx.lineTo(pos.x, pos.y); // to
-
-    ctx.stroke(); // draw it!
-}
+/************************************* */
 
 // document.getElementById('predict').addEventListener('click', async function() {
 
@@ -289,4 +321,7 @@ suggestions.forEach(suggestion => {
 });
 
 document.body.style.zoom = 2; // Bugfix, TODO: find permanent fix
-document.body.style.zoom = 1;
+
+setTimeout(() => {
+    document.body.style.zoom = 1;
+}, 500);
