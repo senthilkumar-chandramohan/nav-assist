@@ -3,9 +3,37 @@ body {
     color:#FFFFFF;
     font-family: sans-serif;
     overflow: hidden;
-    margin: 0 0 0 -22px;
+    margin: 0;
     padding: 0;
 }
+
+/* Grid styles */
+.container, .row {
+    width: 100%;
+}
+
+.col-12 {
+    width: 100%;
+}
+
+.col-6 {
+    display: inline-block;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+    &.margin-5 {
+        margin: 0 0 0 -5px;
+    }
+}
+
+.col-4 {
+    display: inline-block;
+    width: 33.33333333%;
+    &.margin-3 {
+        margin: 0 0 0 -3px;
+    }
+}
+/* End of grid styles */
 
 .padding20 {
     padding: 20px 0;
@@ -84,9 +112,11 @@ button.cta {
     color: #FFFFFF;
     background: #F4244F;    
     position: absolute;
-    width: 144px;
+    width: 142px;
     padding: 20px;
-    top: -6px;
+    top: -4px;
+    margin-left: 1px;
+    border: 0;
 
     &.search {
         right: 0;

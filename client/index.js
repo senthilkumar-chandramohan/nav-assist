@@ -1,6 +1,5 @@
 const jimp = require('jimp');
 import * as tf from '@tensorflow/tfjs';
-require('./node_modules/bootstrap/dist/css/bootstrap-grid.min.css');
 require('./less/master.less');
 
 let model;
