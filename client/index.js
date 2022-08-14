@@ -272,7 +272,7 @@ async function readImageAndPredict() {
             });
 
         // document.getElementById('canvasimg').src = processedImage;
-        // console.log(pixelData);
+        // console.log(pixelData.map(v=>v*255).toString());
         const result = predict(pixelData, imageWidth, imageHeight, imageChannels);
         if (result) {
             const {
@@ -281,12 +281,14 @@ async function readImageAndPredict() {
                 scores,
                 maxScoreIndex,
             } = result;
-            console.log(result);
+            // console.log(result);
 
             if (confidence >= 50) {
                 speechSynthesis.speak(new SpeechSynthesisUtterance(getPronounciation(prediction.toUpperCase())));
                 searchText.value += prediction === '_' ? ' ' : prediction.toUpperCase();
                 clearCanvas();
+                search.focus();
+                searchText.focus();
             } else {
                 a.innerHTML = prediction.toUpperCase();
                 // Find index of 2nd most probable prediction
@@ -314,8 +316,15 @@ suggestions.forEach(suggestion => {
         if (e.target.innerHTML !== '&nbsp;') {
             // Use the value user chose
             searchText.value += e.target.innerHTML === '_' ? ' ' : e.target.innerHTML;
+            search.focus();
+            searchText.focus();
         }
         aOrb.classList.add('hide');
         clearCanvas();
     });
+});
+
+
+document.getElementById('clearText').addEventListener('click', () => {
+    searchText.value = '';
 });

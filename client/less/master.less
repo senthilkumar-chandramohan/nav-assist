@@ -2,14 +2,16 @@ body {
     background: rgb(30, 27, 27);
     color:#FFFFFF;
     font-family: sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
 }
 
 /* Grid styles */
-.container, .row {
+.container {
     width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .col-12 {
@@ -46,10 +48,15 @@ body {
 .header {
     img {
         width: 48px;
+        display: inline-block;
     }
     h1 {
-        margin-top: 0;
+        margin: 20px auto;
         color: #F4244F;
+        display: inline-block;
+        line-height: 1rem;
+        position: relative;
+        top: -15px;
     }
 }
 
@@ -156,12 +163,35 @@ button.cta {
     }
 }
 
+.search {
+    position: relative;
+}
+
 .searchText {
     padding: 10px;
     font-size: large;
     border: solid 2px #F4244F;
     border-radius: 5px;
     margin: 20px 0;
-    width: 80%;
-    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 800px;
+}
+
+.clearText {
+    border: solid 2px #F4244F;
+    color: #fff;
+    background: #F4244F;
+    border-radius: 20px;
+    font-size: 20px;
+    line-height: 23px;
+    font-weight: bold;
+    top: 27px;
+    right: 7px;
+    position: absolute;
+    z-index: 999;
+}
+
+.map {
+    height: 300px;
 }
