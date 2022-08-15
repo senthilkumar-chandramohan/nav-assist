@@ -3,8 +3,8 @@ self.addEventListener("install", e => {
         caches.open("static").then(cache => {
             return cache.addAll([
                 "./",
-                "./js/bundle.js",
                 "./js/index.js",
+                "./js/bundle.js",
                 "./images/logo192.png",
             ]);
         })

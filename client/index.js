@@ -3,6 +3,9 @@ import * as tf from '@tensorflow/tfjs';
 require('./less/master.less');
 
 let model;
+let lastPredictedValue;
+let nextCharsFromAutofill = [];
+
 const labels = [
     '0',
     '1',
@@ -111,25 +114,23 @@ canvas.style.height = '280px';
 canvas.style.width = '280px';
 
 var context = canvas.getContext('2d');
-var radius = 2;
 var dragging = false;
 
 function getMousePosition(e) {
     let mouseX, mouseY;
-    if (e.buttons !== 1) {
+    if (e.buttons !== 1) { // Device with mouse/trackpad
         mouseX = e.clientX;
         mouseY = e.clientY;
-    } else {
+    } else { // Touchscreen device
         mouseX = e.offsetX * canvas.width / canvas.clientWidth | 0;
         mouseY = e.offsetY * canvas.height / canvas.clientHeight | 0;
     }
 
-    // console.log(e.isTouch, mouseX, mouseY);
     return {x: mouseX, y: mouseY};
 }
 
-context.mozImageSmoothingEnabled = false;
-context.imageSmoothingEnabled = false;
+context.mozImageSmoothingEnabled = true;
+context.imageSmoothingEnabled = true;
 
 /* CLEAR CANVAS */
 function clearCanvas() {
@@ -139,10 +140,9 @@ function clearCanvas() {
 var putPoint = function (e) {
     // e.preventDefault();
     // e.stopPropagation();
+    startPrediction = false;
     if (dragging) {
-        startPrediction = false;
         context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
-        context.lineWidth = radius * 2;
         context.lineWidth = 6;
         context.lineCap = 'round';
         context.strokeStyle = '#fff';
@@ -185,10 +185,6 @@ const {
 
 canvas.addEventListener("touchstart", function (e) {
     var touch = e.touches[0];
-    // console.log('touch start');
-    // console.log(touch);
-    
-    // console.log(left, top);
 
     var mouseEvent = new MouseEvent("mousedown", {
         isTouch: true,
@@ -252,9 +248,37 @@ function getPronounciation(prediction) {
     return pronounciation;
 }
 
+const populateNextCharsFromAutofill = () => {
+    nextCharsFromAutofill = [];
+    let autofillSuggestions = document.querySelectorAll('.pac-item-query');
+
+    for (let suggestion of autofillSuggestions) {
+        const suggestionHTML = suggestion.innerHTML;
+        nextCharsFromAutofill.push(suggestionHTML.charAt(suggestionHTML.indexOf('/span>') + 6).toUpperCase());
+    }
+}
+
+const improvePrediction = (correctLabel) => {
+    const prediction = {
+        label: correctLabel,
+        value: lastPredictedValue,
+    };
+
+    // Call Server API here to send prediction
+    console.log(prediction);
+    lastPredictedValue = null;
+};
+
+const forceSearchTextChange = () => {
+    search.focus();
+    searchText.focus();
+    // searchText.dispatchEvent(new Event('change'));
+};
+
 async function readImageAndPredict() {
     // console.log('startPrediction', startPrediction);
     if (startPrediction) {
+        populateNextCharsFromAutofill();
         const imageWidth=28, imageHeight=28, imageChannels=1;
         const pixelData = [];
         const dataURL = canvas.toDataURL();
@@ -272,7 +296,7 @@ async function readImageAndPredict() {
             });
 
         // document.getElementById('canvasimg').src = processedImage;
-        // console.log(pixelData.map(v=>v*255).toString());
+        lastPredictedValue = pixelData.map(v=>v*255).toString();
         const result = predict(pixelData, imageWidth, imageHeight, imageChannels);
         if (result) {
             const {
@@ -281,14 +305,14 @@ async function readImageAndPredict() {
                 scores,
                 maxScoreIndex,
             } = result;
-            // console.log(result);
+            console.log(result);
 
-            if (confidence >= 50) {
+            clearCanvas();
+
+            if (confidence >= 50 || nextCharsFromAutofill.includes(prediction.toUpperCase())) {
                 speechSynthesis.speak(new SpeechSynthesisUtterance(getPronounciation(prediction.toUpperCase())));
                 searchText.value += prediction === '_' ? ' ' : prediction.toUpperCase();
-                clearCanvas();
-                search.focus();
-                searchText.focus();
+                forceSearchTextChange();
             } else {
                 a.innerHTML = prediction.toUpperCase();
                 // Find index of 2nd most probable prediction
@@ -308,7 +332,11 @@ search.addEventListener('click', () => {
 
 undo.addEventListener('click', () => {
     const searchValue = searchText.value;
+    if (lastPredictedValue) {
+        improvePrediction('');
+    }
     searchText.value = searchValue.substring(0, searchValue.length - 1);
+    forceSearchTextChange();
 });
 
 suggestions.forEach(suggestion => {
@@ -316,11 +344,14 @@ suggestions.forEach(suggestion => {
         if (e.target.innerHTML !== '&nbsp;') {
             // Use the value user chose
             searchText.value += e.target.innerHTML === '_' ? ' ' : e.target.innerHTML;
-            search.focus();
-            searchText.focus();
+            forceSearchTextChange();
         }
+
+        if (lastPredictedValue) {
+            improvePrediction(e.target.innerHTML.replace('&nbsp;', ''));
+        }
+
         aOrb.classList.add('hide');
-        clearCanvas();
     });
 });
 
