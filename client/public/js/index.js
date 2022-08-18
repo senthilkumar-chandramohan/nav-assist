@@ -12,8 +12,6 @@ if ("serviceWorker" in navigator) {
 }
 
 function initAutocomplete() {
-    let location;
-
     /* Get geolocation */
 
     const options = {
@@ -28,7 +26,7 @@ function initAutocomplete() {
             longitude: lng,
         } = pos.coords;
 
-        location = { lat, lng };
+        const location = { lat, lng };
         
         const map = new google.maps.Map(
         document.getElementById("map"),
@@ -59,6 +57,7 @@ function initAutocomplete() {
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener("places_changed", () => {
+            window.resetAddressEntry = true;
             const places = searchBox.getPlaces();
         
             if (places.length == 0) {
@@ -75,28 +74,29 @@ function initAutocomplete() {
             const bounds = new google.maps.LatLngBounds();
         
             places.forEach((place) => {
-                console.log(place);
+                // console.log(place);
+                window.placeUrl = place.url;
                 if (!place.geometry || !place.geometry.location) {
-                console.log("Returned place contains no geometry");
-                return;
+                    console.log("Returned place contains no geometry");
+                    return;
                 }
         
                 const icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25),
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25),
                 };
         
                 // Create a marker for each place.
                 markers.push(
-                new google.maps.Marker({
-                    map,
-                    icon,
-                    title: place.name,
-                    position: place.geometry.location,
-                })
+                    new google.maps.Marker({
+                        map,
+                        icon,
+                        title: place.name,
+                        position: place.geometry.location,
+                    })
                 );
         
                 if (place.geometry.viewport) {

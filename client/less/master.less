@@ -61,6 +61,11 @@ body {
 }
 
 .row {
+    overflow: hidden;
+    
+    &.search {
+        position: relative;
+    }
     .aOrb {
         z-index: 999;
         position: absolute;
@@ -161,10 +166,6 @@ button.cta {
             margin: auto;
         }
     }
-}
-
-.search {
-    position: relative;
 }
 
 .searchText {

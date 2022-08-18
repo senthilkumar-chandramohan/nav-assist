@@ -140,8 +140,9 @@ function clearCanvas() {
 var putPoint = function (e) {
     // e.preventDefault();
     // e.stopPropagation();
-    startPrediction = false;
     if (dragging) {
+        startPrediction = false;
+        // console.log("startPrediction", startPrediction);
         context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
         context.lineWidth = 6;
         context.lineCap = 'round';
@@ -158,6 +159,7 @@ var putPoint = function (e) {
 var engage = function (e) {
     // console.log("A", e);
     startPrediction = false;
+    // console.log("startPrediction", startPrediction);
     dragging = true;
     putPoint(e);
 };
@@ -172,10 +174,10 @@ canvas.addEventListener('mousedown', engage);
 canvas.addEventListener('mousemove', putPoint);
 canvas.addEventListener('mouseup', disengage);
 // document.addEventListener('mouseup', disengage);
-canvas.addEventListener('contextmenu', disengage);
+// canvas.addEventListener('contextmenu', disengage);
 
 // canvas.addEventListener('touchstart', engage, false);
-//canvas.addEventListener('touchmove', putPoint, false);
+// canvas.addEventListener('touchmove', putPoint, false);
 // canvas.addEventListener('touchend', disengage, false);
 
 const {
@@ -192,7 +194,7 @@ canvas.addEventListener("touchstart", function (e) {
         clientY: touch.clientY - top,
     });
     canvas.dispatchEvent(mouseEvent);
-    }, false);
+}, false);
 
 canvas.addEventListener("touchmove", function (e) {
     var touch = e.touches[0];
@@ -202,15 +204,15 @@ canvas.addEventListener("touchmove", function (e) {
         clientY: touch.clientY - top,
     });
     canvas.dispatchEvent(mouseEvent);
-  }, false);
+}, false);
 
-  canvas.addEventListener("touchend", function (e) {
+canvas.addEventListener("touchend", function (e) {
         var touch = e.touches[0];
         // console.log('touch end');
         // console.log(touch);
         var mouseEvent = new MouseEvent("mouseup");
         canvas.dispatchEvent(mouseEvent);
-      }, false);
+}, false);
 
 /************************************* */
 
@@ -278,6 +280,12 @@ const forceSearchTextChange = () => {
 async function readImageAndPredict() {
     // console.log('startPrediction', startPrediction);
     if (startPrediction) {
+        if (window.resetAddressEntry) { // Reset searchText if user has already chosen an address from suggestions
+            searchText.value = '';
+            window.placeUrl = null;
+            window.resetAddressEntry = false;
+        }
+
         populateNextCharsFromAutofill();
         const imageWidth=28, imageHeight=28, imageChannels=1;
         const pixelData = [];
@@ -305,7 +313,7 @@ async function readImageAndPredict() {
                 scores,
                 maxScoreIndex,
             } = result;
-            console.log(result);
+            // console.log(result);
 
             clearCanvas();
 
@@ -327,7 +335,11 @@ async function readImageAndPredict() {
 }
 
 search.addEventListener('click', () => {
-    window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURI(searchText.value)}`);
+    if (window.placeUrl) {
+        window.open(window.placeUrl);
+    } else {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURI(searchText.value)}`);
+    }
 });
 
 undo.addEventListener('click', () => {
@@ -354,7 +366,6 @@ suggestions.forEach(suggestion => {
         aOrb.classList.add('hide');
     });
 });
-
 
 document.getElementById('clearText').addEventListener('click', () => {
     searchText.value = '';
