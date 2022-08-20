@@ -192,7 +192,6 @@ canvas.addEventListener("touchstart", function (e) {
     var touch = e.touches[0];
 
     var mouseEvent = new MouseEvent("mousedown", {
-        isTouch: true,
         clientX: touch.clientX - left,
         clientY: touch.clientY - top,
     });
@@ -202,7 +201,6 @@ canvas.addEventListener("touchstart", function (e) {
 canvas.addEventListener("touchmove", function (e) {
     var touch = e.touches[0];
     var mouseEvent = new MouseEvent("mousemove", {
-        isTouch: true,
         clientX: touch.clientX - left,
         clientY: touch.clientY - top,
     });
