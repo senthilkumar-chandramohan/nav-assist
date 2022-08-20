@@ -143,8 +143,7 @@ var putPoint = function (e) {
     // e.stopPropagation();
     if (dragging) {
         // startPrediction = false;
-        // debugStatus.innerHTML = `startPrediction ${startPrediction}`;
-        // console.log("startPrediction", startPrediction);
+        debugStatus.innerHTML = `startPrediction ${startPrediction}`;
         context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
         context.lineWidth = 6;
         context.lineCap = 'round';
@@ -159,10 +158,8 @@ var putPoint = function (e) {
 };
 
 var engage = function (e) {
-    // console.log("A", e);
     startPrediction = false;
     debugStatus.innerHTML = `startPrediction ${startPrediction}`;
-    // console.log("startPrediction", startPrediction);
     dragging = true;
     putPoint(e);
 };
@@ -176,12 +173,6 @@ var disengage = function () {
 canvas.addEventListener('mousedown', engage);
 canvas.addEventListener('mousemove', putPoint);
 canvas.addEventListener('mouseup', disengage);
-// document.addEventListener('mouseup', disengage);
-// canvas.addEventListener('contextmenu', disengage);
-
-// canvas.addEventListener('touchstart', engage, false);
-// canvas.addEventListener('touchmove', putPoint, false);
-// canvas.addEventListener('touchend', disengage, false);
 
 const {
     left,
@@ -209,19 +200,14 @@ canvas.addEventListener("touchmove", function (e) {
 
 canvas.addEventListener("touchend", function (e) {
         var touch = e.touches[0];
-        // console.log('touch end');
-        // console.log(touch);
         var mouseEvent = new MouseEvent("mouseup");
         canvas.dispatchEvent(mouseEvent);
 }, false);
 
 /************************************* */
 
-// document.getElementById('predict').addEventListener('click', async function() {
-
 function triggerPredictTimer() {
     startPrediction = true;
-    // console.log('startPrediction', startPrediction);
     debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     setTimeout(()=> {
         readImageAndPredict();
@@ -276,13 +262,12 @@ const improvePrediction = (correctLabel) => {
 const forceSearchTextChange = () => {
     search.focus();
     searchText.focus();
-    // searchText.dispatchEvent(new Event('change'));
 };
 
 async function readImageAndPredict() {
-    // console.log('startPrediction', startPrediction);
     debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     if (startPrediction) {
+        startPrediction = false;
         if (window.resetAddressEntry) { // Reset searchText if user has already chosen an address from suggestions
             searchText.value = '';
             window.placeUrl = null;
@@ -293,6 +278,8 @@ async function readImageAndPredict() {
         const imageWidth=28, imageHeight=28, imageChannels=1;
         const pixelData = [];
         const dataURL = canvas.toDataURL();
+        clearCanvas();
+
         // document.getElementById('canvasimg').src = dataURL;
 
         const image = await jimp.default.read(dataURL);
@@ -317,8 +304,6 @@ async function readImageAndPredict() {
                 maxScoreIndex,
             } = result;
             // console.log(result);
-
-            clearCanvas();
 
             if (confidence >= 50 || nextCharsFromAutofill.includes(prediction.toUpperCase())) {
                 speechSynthesis.speak(new SpeechSynthesisUtterance(getPronounciation(prediction.toUpperCase())));

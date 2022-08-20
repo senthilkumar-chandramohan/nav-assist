@@ -60,12 +60,13 @@ body {
 }
 
 .row {
-    &.search, &.canvas {
+    &.search {
         position: relative;
         overflow: hidden;
     }
 
     &.canvas {
+        position: relative;
         .col-12 {
             border: solid 2px #F4244F;
             box-sizing: border-box;
@@ -77,7 +78,8 @@ body {
     .aOrb {
         z-index: 999;
         position: absolute;
-        height: 340px;
+        height: 346px;
+        border-radius: 5px;
         width: 100%;
         background: #FFFFFF;
         color: #444;
@@ -195,4 +197,8 @@ button.cta {
 
 .map {
     height: 250px;
+}
+
+.pac-item-query {
+    padding: 5px 0;
 }
