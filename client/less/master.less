@@ -9,9 +9,10 @@ body {
 
 /* Grid styles */
 .container {
-    width: 100%;
-    padding: 0 20px;
+    width: 320px;
+    padding: 0 18px;
     box-sizing: border-box;
+    margin: 0 auto;
 }
 
 .col-12 {
@@ -30,10 +31,8 @@ body {
 
 .col-4 {
     display: inline-block;
-    width: 33.33333333%;
-    &.margin-3 {
-        margin: 0 0 0 -3px;
-    }
+    width: 31%;
+    margin: 0;
 }
 /* End of grid styles */
 
@@ -61,10 +60,19 @@ body {
 }
 
 .row {
-    overflow: hidden;
-    
-    &.search {
+    &.search, &.canvas {
         position: relative;
+        overflow: hidden;
+    }
+
+    &.canvas {
+        .col-12 {
+            border: solid 2px #F4244F;
+            box-sizing: border-box;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            border-bottom: 0;
+        }
     }
     .aOrb {
         z-index: 999;
@@ -78,14 +86,12 @@ body {
             visibility: hidden;
         }
         .col-4 {
-            height: 240px;
             .suggestion {
                 cursor: pointer;
                 position: relative;
                 background: #F4244F;
                 color: #FFFFFF;
-                height: 200px;
-                line-height: 200px;
+                line-height: 150px;
                 font-size: 64px;
                 margin-top: 20px;
                 &.discard {
@@ -113,24 +119,18 @@ body {
     }
 }
 
-canvas {
-    border: solid 2px #F4244F;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-}
-
 button.cta {
     cursor: pointer;
     color: #FFFFFF;
-    background: #F4244F;    
+    background: #F4244F;
     position: absolute;
     width: 142px;
     padding: 20px;
-    top: -4px;
-    border: 0;
+    border: solid 2px #F4244F;
+    box-sizing: border-box;
 
     &.search {
-        right: 1px;
+        right: 0;
         border-bottom-left-radius: 10px;
         &:before {
             content: '';

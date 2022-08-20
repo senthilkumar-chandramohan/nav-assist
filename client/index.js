@@ -5,6 +5,7 @@ require('./less/master.less');
 let model;
 let lastPredictedValue;
 let nextCharsFromAutofill = [];
+let debugStatus = document.getElementById('debugStatus');
 
 const labels = [
     '0',
@@ -141,7 +142,8 @@ var putPoint = function (e) {
     // e.preventDefault();
     // e.stopPropagation();
     if (dragging) {
-        startPrediction = false;
+        // startPrediction = false;
+        // debugStatus.innerHTML = `startPrediction ${startPrediction}`;
         // console.log("startPrediction", startPrediction);
         context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
         context.lineWidth = 6;
@@ -159,6 +161,7 @@ var putPoint = function (e) {
 var engage = function (e) {
     // console.log("A", e);
     startPrediction = false;
+    debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     // console.log("startPrediction", startPrediction);
     dragging = true;
     putPoint(e);
@@ -221,9 +224,10 @@ canvas.addEventListener("touchend", function (e) {
 function triggerPredictTimer() {
     startPrediction = true;
     // console.log('startPrediction', startPrediction);
+    debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     setTimeout(()=> {
         readImageAndPredict();
-    }, 750);
+    }, 1000);
 };
 
 function findIndexOfSecondPrediction(scores, maxScoreIndex) {
@@ -279,6 +283,7 @@ const forceSearchTextChange = () => {
 
 async function readImageAndPredict() {
     // console.log('startPrediction', startPrediction);
+    debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     if (startPrediction) {
         if (window.resetAddressEntry) { // Reset searchText if user has already chosen an address from suggestions
             searchText.value = '';

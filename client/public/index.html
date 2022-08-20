@@ -2,13 +2,14 @@
 <html>
     <head>
         <title>NavAssist</title>
-        <meta name="viewport" content="width=device-width, user-scalable=0, maximum-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <meta name="theme-color" content="#444">
 
         <link rel="manifest" href="manifest.json">
         <link rel="apple-touch-icon" href="images/logo192.png">
     </head>
     <body>
+        <div id="debugStatus" style="position: absolute; top: 0; left: 0; color: #fff"></div>
         <section class="padding20">
             <div class="container centerAlign">
                 <div class="row header">
@@ -23,13 +24,13 @@
                             <h3>I'm not sure!<br>Is it?</h3>
                         </div>
                         <div class="row">
-                            <div class="col-4 margin-3">
+                            <div class="col-4">
                                 <div id="a" class="suggestion"></div>
                             </div>
-                            <div class="col-4 margin-3">
+                            <div class="col-4">
                                 <div id="b" class="suggestion"></div>
                             </div>
-                            <div class="col-4 margin-3">
+                            <div class="col-4">
                                 <div id="c" class="suggestion discard">&nbsp;</div>
                             </div>
                         </div>
