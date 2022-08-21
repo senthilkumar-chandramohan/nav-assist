@@ -72,9 +72,8 @@ function initAutocomplete() {
         
             // For each place, get the icon, name and location.
             const bounds = new google.maps.LatLngBounds();
-        
+
             places.forEach((place) => {
-                // console.log(place);
                 window.placeUrl = place.url;
                 if (!place.geometry || !place.geometry.location) {
                     console.log("Returned place contains no geometry");

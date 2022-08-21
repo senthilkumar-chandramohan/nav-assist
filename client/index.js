@@ -1,11 +1,10 @@
 const jimp = require('jimp');
 import * as tf from '@tensorflow/tfjs';
-require('./less/master.less');
 
 let model;
 let lastPredictedValue;
 let nextCharsFromAutofill = [];
-let debugStatus = document.getElementById('debugStatus');
+// let debugStatus = document.getElementById('debugStatus');
 
 const labels = [
     '0',
@@ -143,7 +142,7 @@ var putPoint = function (e) {
     // e.stopPropagation();
     if (dragging) {
         // startPrediction = false;
-        debugStatus.innerHTML = `startPrediction ${startPrediction}`;
+        // debugStatus.innerHTML = `startPrediction ${startPrediction}`;
         context.lineTo(getMousePosition(e).x, getMousePosition(e).y);
         context.lineWidth = 6;
         context.lineCap = 'round';
@@ -159,7 +158,7 @@ var putPoint = function (e) {
 
 var engage = function (e) {
     startPrediction = false;
-    debugStatus.innerHTML = `startPrediction ${startPrediction}`;
+    // debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     dragging = true;
     putPoint(e);
 };
@@ -208,10 +207,10 @@ canvas.addEventListener("touchend", function (e) {
 
 function triggerPredictTimer() {
     startPrediction = true;
-    debugStatus.innerHTML = `startPrediction ${startPrediction}`;
+    // debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     setTimeout(()=> {
         readImageAndPredict();
-    }, 1000);
+    }, 650);
 };
 
 function findIndexOfSecondPrediction(scores, maxScoreIndex) {
@@ -265,7 +264,7 @@ const forceSearchTextChange = () => {
 };
 
 async function readImageAndPredict() {
-    debugStatus.innerHTML = `startPrediction ${startPrediction}`;
+    // debugStatus.innerHTML = `startPrediction ${startPrediction}`;
     if (startPrediction) {
         startPrediction = false;
         if (window.resetAddressEntry) { // Reset searchText if user has already chosen an address from suggestions

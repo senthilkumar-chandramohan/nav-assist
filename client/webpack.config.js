@@ -13,29 +13,6 @@ module.exports = {
             fs: false,
         },
     },
-    module: {
-        rules: [
-            {
-                test: /\.less$/i,
-                include: [
-                    // path.resolve(__dirname, 'node_modules'),
-                    path.resolve(__dirname, 'less')
-                ],
-                use: [
-                    { loader: 'style-loader' },
-                    { loader: 'css-loader' },
-                    { loader: 'less-loader' }
-                ]
-            },
-            {
-                test: /\.css$/i,
-                use: [
-                    { loader: 'style-loader' },
-                    { loader: 'css-loader' }
-                ]
-            }
-        ]
-    },
     entry: './index.js',
     mode: 'production',
     plugins: [
