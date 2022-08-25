@@ -78,8 +78,8 @@ const imageWidth = 28;
 const imageHeight = 28;
 const imageChannels = 1;
 
-const batchSize = 1000;
-const epochsValue = 50;
+const batchSize = 100;
+const epochsValue = 100;
 
 const createModel = () => {
     modelReadyForPrediction = false;
@@ -117,12 +117,6 @@ const createModel = () => {
         units: numOfClasses,
         activation: "softmax"
     }));
-
-    model.compile({
-        optimizer: "adam",
-        loss: "categoricalCrossentropy",
-        metrics: ["accuracy"]
-    });
 
     modelCreated = true;
 };
@@ -191,6 +185,14 @@ const trainModel = async (trainingData, epochs = epochsValue) => {
         }
     };
 
+    model.compile({
+        optimizer: "adam",
+        loss: "categoricalCrossentropy",
+        metrics: ["accuracy"]
+    });
+
+    // return await model.fit(trainingData, options);
+
     return await model.fitDataset(trainingData, options);
 };
 
@@ -244,8 +246,24 @@ const predict = async (imageUrl) => {
 
 const loadDataAndTrainModel = async (dataSetName) => {
     const [ trainDataSetPath, testDataSetPath ] = getDataSetPath(dataSetName);
-    const trainingData = loadData(trainDataSetPath);
+    let trainingData = loadData(trainDataSetPath);
     const testingData = loadData(testDataSetPath);
+
+    // const a = await trainingData.take(5);
+
+    // await a.forEachAsync(e => {
+    //     console.log(e.ys.dataSync());
+    // });
+
+    trainingData = trainingData.shuffle(10*batchSize);
+
+    // console.log("=================================");
+
+    // const b = await trainingData.take(5);
+
+    // await b.forEachAsync(e => {
+    //     console.log(e.ys.dataSync());
+    // });
 
     if (modelCreated || modelReadyForPrediction) {
         const info = await trainModel(trainingData);

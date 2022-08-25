@@ -108,3 +108,6 @@ server/images/dataset
 
 # Large dataset files
 server/data/bkup
+
+# model backups
+client/public/model/bkup

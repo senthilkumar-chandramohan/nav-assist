@@ -43,32 +43,32 @@ const labels = [
     'X',
     'Y',
     'Z',
-    // 'a',
-    // 'b',
-    // 'c',
-    // 'd',
-    // 'e',
-    // 'f',
-    // 'g',
-    // 'h',
-    // 'i',
-    // 'j',
-    // 'k',
-    // 'l',
-    // 'm',
-    // 'n',
-    // 'o',
-    // 'p',
-    // 'q',
-    // 'r',
-    // 's',
-    // 't',
-    // 'u',
-    // 'v',
-    // 'w',
-    // 'x',
-    // 'y',
-    // 'z',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
     '_',
     ',',
     '.',
@@ -243,7 +243,7 @@ const populateNextCharsFromAutofill = () => {
 
     for (let suggestion of autofillSuggestions) {
         const suggestionHTML = suggestion.innerHTML;
-        nextCharsFromAutofill.push(suggestionHTML.charAt(suggestionHTML.indexOf('/span>') + 6).toUpperCase());
+        nextCharsFromAutofill.push(suggestionHTML.charAt(suggestionHTML.indexOf('/span>') + 6).toLowerCase());
     }
 }
 
@@ -304,18 +304,18 @@ async function readImageAndPredict() {
             } = result;
             // console.log(result);
 
-            if (confidence >= 50 || nextCharsFromAutofill.includes(prediction.toUpperCase())) {
-                speechSynthesis.speak(new SpeechSynthesisUtterance(getPronounciation(prediction.toUpperCase())));
-                searchText.value += prediction === '_' ? ' ' : prediction.toUpperCase();
+            if (confidence >= 50 || nextCharsFromAutofill.includes(prediction.toLowerCase())) {
+                speechSynthesis.speak(new SpeechSynthesisUtterance(getPronounciation(prediction)));
+                searchText.value += prediction === '_' ? ' ' : prediction;
                 forceSearchTextChange();
             } else {
-                a.innerHTML = prediction.toUpperCase();
+                a.innerHTML = prediction;
                 // Find index of 2nd most probable prediction
                 const secondPrediction = labels[findIndexOfSecondPrediction(scores, maxScoreIndex)];
-                b.innerHTML = secondPrediction.toUpperCase();
+                b.innerHTML = secondPrediction;
                 aOrb.classList.remove('hide');
 
-                speechSynthesis.speak(new SpeechSynthesisUtterance(`Is it ${getPronounciation(prediction.toUpperCase())} OR ${getPronounciation(secondPrediction.toUpperCase())}?`));
+                speechSynthesis.speak(new SpeechSynthesisUtterance(`Is it ${getPronounciation(prediction)} OR ${getPronounciation(secondPrediction)}?`));
             }
         }
     }
@@ -331,7 +331,7 @@ search.addEventListener('click', () => {
 
 undo.addEventListener('click', () => {
     const searchValue = searchText.value;
-    if (lastPredictedValue) {
+    if (window.sendPredictionData && lastPredictedValue) {
         improvePrediction('');
     }
     searchText.value = searchValue.substring(0, searchValue.length - 1);
@@ -346,7 +346,7 @@ suggestions.forEach(suggestion => {
             forceSearchTextChange();
         }
 
-        if (lastPredictedValue) {
+        if (window.sendPredictionData && lastPredictedValue) {
             improvePrediction(e.target.innerHTML.replace('&nbsp;', ''));
         }
 

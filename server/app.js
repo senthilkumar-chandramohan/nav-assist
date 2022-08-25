@@ -21,7 +21,7 @@ app.get("/export-to-csv/dataset/:dataSetName", (req, res) => {
 
 app.get("/create-model", async (req, res) => {
     createModel();
-    res.send("Model Training Initiated...");
+    res.send("Model created");
 });
 
 app.get("/load-model", async (req, res) => {

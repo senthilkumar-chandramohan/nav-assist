@@ -11,6 +11,26 @@ if ("serviceWorker" in navigator) {
     console.log("Please upgrade browser!");
 }
 
+const sidebar = document.getElementById('sidebar');
+const savePreferences = document.getElementById('savePreferences');
+const burgerMenu = document.getElementById('burgerMenu');
+
+burgerMenu.addEventListener('click', () => {
+    sidebar.classList.add('show');
+});
+
+savePreferences.addEventListener('click', () => {
+    window.sendPredictionData = document.getElementById('sendData').checked;
+    localStorage.setItem('sendPredictionData', window.sendPredictionData);
+    sidebar.classList.remove('show');
+});
+
+window.sendPredictionData = localStorage.getItem('sendPredictionData');
+
+if (window.sendPredictionData === null) {
+    sidebar.classList.add('show'); // Open sidebar on pageload, if sendDataPreference is not set (happens only first time)
+}
+
 function initAutocomplete() {
     /* Get geolocation */
 
