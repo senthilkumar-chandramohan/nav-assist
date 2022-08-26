@@ -1,0 +1,9 @@
+POST http://localhost:5001/incorrect-predictions
+Content-Type: application/json
+
+{
+    "prediction": {
+        "label": "A",
+        "value": "TEST"
+    }
+}

@@ -111,3 +111,6 @@ server/data/bkup
 
 # model backups
 client/public/model/bkup
+
+# env variables
+.env

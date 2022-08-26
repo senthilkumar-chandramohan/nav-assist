@@ -254,7 +254,15 @@ const improvePrediction = (correctLabel) => {
     };
 
     // Call Server API here to send prediction
-    console.log(prediction);
+    fetch("http://localhost:5001/incorrect-prediction", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({prediction}),
+    });
+    // console.log(prediction);
     lastPredictedValue = null;
 };
 
