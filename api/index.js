@@ -3,7 +3,7 @@ const app = express();
 
 app.set("port", (process.env.PORT || 5001));
 
-app.post("/incorrect-predictions", (req, res) => {
+app.get("/incorrect-predictions", (req, res) => {
     res.status(200).json({status: "SUCCESS"});
 });
 
