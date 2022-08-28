@@ -41,35 +41,7 @@ const labels = [
     'X',
     'Y',
     'Z',
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
     '_',
-    ',',
-    '.',
   ];
 
 const numOfClasses = labels.length;
@@ -191,8 +163,6 @@ const trainModel = async (trainingData, epochs = epochsValue) => {
         metrics: ["accuracy"]
     });
 
-    // return await model.fit(trainingData, options);
-
     return await model.fitDataset(trainingData, options);
 };
 
@@ -249,21 +219,14 @@ const loadDataAndTrainModel = async (dataSetName) => {
     let trainingData = loadData(trainDataSetPath);
     const testingData = loadData(testDataSetPath);
 
-    // const a = await trainingData.take(5);
-
-    // await a.forEachAsync(e => {
-    //     console.log(e.ys.dataSync());
-    // });
-
     trainingData = trainingData.shuffle(10*batchSize);
 
-    // console.log("=================================");
-
     // const b = await trainingData.take(5);
-
     // await b.forEachAsync(e => {
     //     console.log(e.ys.dataSync());
     // });
+
+    createModel();
 
     if (modelCreated || modelReadyForPrediction) {
         const info = await trainModel(trainingData);
@@ -277,7 +240,6 @@ const loadDataAndTrainModel = async (dataSetName) => {
 };
 
 module.exports = {
-    createModel,
     loadModel,
     loadDataAndTrainModel,
     predict,

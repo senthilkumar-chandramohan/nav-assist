@@ -1,5 +1,5 @@
 const jimp = require('jimp');
-const { predict } = require('./modules/model');
+const { labels, predict } = require('./modules/model');
 
 let lastPredictedValue;
 let nextCharsFromAutofill = [];

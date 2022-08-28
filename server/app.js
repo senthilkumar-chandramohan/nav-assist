@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-const { createModel, loadModel, loadDataAndTrainModel, predict } = require("./modules/model");
+const { loadModel, loadDataAndTrainModel, predict } = require("./modules/model");
 const { extractPixelDataFromImages, writePixelDataToCSV, splitDataSetCSV } = require("./modules/utils");
 
 const app = express();
@@ -9,19 +9,14 @@ const app = express();
 app.set("port", (process.env.PORT || 5000));
 app.use("/", express.static(path.join(__dirname, "../client/public")));
 
-app.get("/extract-pixel-data-from-images/dataset/:dataSetName", (req, res) => {
-    extractPixelDataFromImages(req.params.dataSetName);
+app.get("/extract-pixel-data-from-images", (req, res) => {
+    extractPixelDataFromImages();
     res.send("Extraction started!");
 });
 
-app.get("/export-to-csv/dataset/:dataSetName", (req, res) => {
-    writePixelDataToCSV(req.params.dataSetName);
+app.get("/export-to-csv", (req, res) => {
+    writePixelDataToCSV();
     res.send("Export started!");
-});
-
-app.get("/create-model", async (req, res) => {
-    createModel();
-    res.send("Model created");
 });
 
 app.get("/load-model", async (req, res) => {

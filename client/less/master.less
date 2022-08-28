@@ -12,8 +12,8 @@ body {
 
 .burgerMenu {
     position: absolute;
-    top: 16px;
-    left: 10px;
+    top: 10px;
+    left: 5px;
     height: 48px;
     width: 48px;
     background-color: #F4244F;
@@ -47,6 +47,7 @@ body {
         padding: 10px;
         color: #fff;
         font-weight: bold;
+        box-shadow: 0px 0px 5px #444;
     }
 }
 
@@ -79,8 +80,8 @@ body {
 }
 /* End of grid styles */
 
-.padding20 {
-    padding: 20px 0;
+.padding10 {
+    padding: 10px 0;
 }
 
 .centerAlign {
@@ -91,14 +92,7 @@ body {
     img {
         width: 40px;
         display: inline-block;
-    }
-    h1 {
-        font-size: 20px;
-        color: #F4244F;
-        display: inline-block;
-        line-height: 1rem;
-        position: relative;
-        top: -12px;
+        margin-bottom: 10px;
     }
 }
 
@@ -216,12 +210,13 @@ button.cta {
 .searchText {
     padding: 10px;
     font-size: large;
-    border: solid 2px #F4244F;
-    border-radius: 5px;
-    margin: 20px 0;
+    margin: 40px 0 10px;
     width: 100%;
     box-sizing: border-box;
-    max-width: 800px;
+    border: 0;
+    &:focus {
+        border: 0;
+    }
 }
 
 .clearText {
@@ -231,9 +226,8 @@ button.cta {
     border-radius: 20px;
     font-size: 20px;
     line-height: 23px;
-    font-weight: bold;
-    top: 27px;
-    right: 7px;
+    bottom: 16px;
+    right: 5px;
     position: absolute;
     z-index: 999;
 }
@@ -242,6 +236,10 @@ button.cta {
     height: 250px;
 }
 
-.pac-item-query {
-    padding: 10px 0;
+.pac-container {
+    width: 283px !important;
+}
+
+.pac-item {
+    padding: 10px 5px;
 }
