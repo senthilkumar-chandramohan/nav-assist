@@ -11,6 +11,7 @@ if ("serviceWorker" in navigator) {
     console.log("Please upgrade browser!");
 }
 
+/* Sidebar and Google Maps related code - Start */
 const sidebar = document.getElementById('sidebar');
 const savePreferences = document.getElementById('savePreferences');
 const burgerMenu = document.getElementById('burgerMenu');
@@ -29,6 +30,12 @@ window.sendPredictionData = localStorage.getItem('sendPredictionData');
 
 if (window.sendPredictionData === null) {
     sidebar.classList.add('show'); // Open sidebar on pageload, if sendDataPreference is not set (happens only first time)
+} else {
+    if (window.sendPredictionData === 'true') {
+        document.getElementById('sendData').setAttribute('checked', 'checked');
+    } else {
+        document.getElementById('sendData').removeAttribute('checked');
+    }
 }
 
 function initAutocomplete() {
@@ -136,3 +143,4 @@ function initAutocomplete() {
     navigator.geolocation.getCurrentPosition(success, error, options);
     /* End of get geolocation */
 }
+/* Sidebar and Google Maps related code - End */
