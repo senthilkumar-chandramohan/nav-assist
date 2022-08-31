@@ -86,6 +86,7 @@ const extractPixelDataFromImages = () => {
         });
     }
 
+    labelFolderMap.push({ label: "U", folder: "_U" });
     labelFolderMap.push({ label: "_", folder: "space" });
     // labelFolderMap.push({ label: ",", folder: "comma" });
 

@@ -51,7 +51,7 @@ const imageHeight = 28;
 const imageChannels = 1;
 
 const batchSize = 100;
-const epochsValue = 100;
+const epochsValue = 60;
 
 const createModel = () => {
     modelReadyForPrediction = false;
