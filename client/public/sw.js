@@ -6,9 +6,9 @@ self.addEventListener("install", e => {
                 "./js/bundle.js",
                 "./js/index.js",
                 "./css/master.css",
-                "./images/logo192.png",
                 "./model/model.json",
                 "./model/weights.bin",
+                "./images/logo192.png",
             ]);
         })
     )
